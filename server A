@@ -1,0 +1,21 @@
+# linux-Apache-with-NFS-users-permissions-
+Configured Apache web server using NFS shared storage with user and group permission management to ensure consistent access control across multiple servers
+
+#server A => NFS
+dnf install nfs-utils
+systemctl status nfs-utils
+systemctl enable --now nfs-utils
+firewall-cmd --add-sevices=nfs --parmanent
+firewall-cmd --reload
+groupdd amgroup -g 3001
+userdd amira1972 -u 4001 -g amgroup
+mkdir -p /root/shared_file 
+chown -R amira1972:amgroup /root/shared_file
+chmod 770 /root/shared_file
+
+nano /etc/exports/
+    #add => /root/shared_file 192.168.56.101/24 (rw, no_root_squash)
+
+exports -rav
+
+
